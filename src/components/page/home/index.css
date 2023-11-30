@@ -1,0 +1,75 @@
+section {
+
+}
+
+nav {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+  /* width: 90vw; */
+  background-color: #f6f7f9;
+  border-radius: 55px;
+}
+
+nav > section {
+  display: flex;
+
+}
+
+button, p {
+  margin: 1.4rem;
+  padding: 0.5rem 1.4rem;
+}
+
+.btnGrp {
+
+}
+
+.affiliate-btn, .sign-up-btn {
+  border: 1px solid #98a2b3;
+  border-radius: 100px;
+}
+
+.sign-up-btn {
+  background-color: #175cd3;
+  color: white;
+}
+
+.affiliate-btn {
+  background-color: white;
+}
+
+.hero {
+  display: flex;
+  margin-top: 3rem;
+}
+
+.hero-content {
+  display: flex;
+  flex-flow: column;
+
+  align-items: flex-start;
+  /* justify-content: start; */
+
+  /* background-color: aqua; */
+  display: flex;
+  justify-content: center;
+}
+
+.hero-content > h1, h4 {
+  text-align: left;
+
+  /* background-color: pink; */
+  margin: 0.4rem 0;
+}
+
+.media-icons {
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.social-links-tagline {
+  font-size: 18px;
+}
+

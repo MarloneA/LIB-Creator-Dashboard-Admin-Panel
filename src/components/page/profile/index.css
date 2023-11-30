@@ -1,0 +1,14 @@
+main {
+  display: flex;
+}
+
+.leftSection {
+  background-color: white;
+  height: 90vh;
+  width: 30vw;
+}
+.rightSection {
+  /* background-color: blue; */
+  /* height: 100vh; */
+  width: 45vw;
+}
