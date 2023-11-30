@@ -1,14 +1,21 @@
-main {
+.mainProfile {
   display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 0 1rem;
 }
 
 .leftSection {
-  background-color: white;
+  /* background-color: white; */
+  text-align: center;
   height: 90vh;
   width: 30vw;
 }
 .rightSection {
-  /* background-color: blue; */
+  background-color: #ffffffdb;
   /* height: 100vh; */
-  width: 45vw;
+  width: 50vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
