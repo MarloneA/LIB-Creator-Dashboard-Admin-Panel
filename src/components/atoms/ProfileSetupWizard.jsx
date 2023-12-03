@@ -1,16 +1,12 @@
-/** @jsx jsx */
-import { ReactNode, useCallback, useState } from 'react';
-
-import { css, jsx } from '@emotion/react';
-
-import Button from '@atlaskit/button';
+import { useCallback, useState } from 'react';
+import { css } from '@emotion/react';
 import { Box } from '@atlaskit/primitives';
 import { N20, N200 } from '@atlaskit/theme/colors';
 import { token } from '@atlaskit/tokens';
 
 import Tabs, { Tab, TabList, TabPanel } from '@atlaskit/tabs';
-// Import SelectedType from the types file
-import { SelectedType } from '@atlaskit/tabs/types';
+import AddUserProfileWizard from "./AddUserProfileWizard";
+import ConfigureProfileLinksWizard from "./ConfigureProfileLinksWizard";
 
 const panelStyles = css({
   display: 'flex',
@@ -35,11 +31,11 @@ export const Panel = ({ children, testId }) => (
   </div>
 );
 
-export default function TabsControlledExample() {
+function ProfileSetupWizard() {
   const [selected, setSelected] = useState(0);
+  const [profileData, setProfileData] = useState({})
 
   const handleUpdate = useCallback(
-    // Removed type annotation for index
     (index) => setSelected(index),
     [setSelected],
   );
@@ -48,19 +44,27 @@ export default function TabsControlledExample() {
     <Box>
       <Tabs onChange={handleUpdate} selected={selected} id="controlled">
         <TabList>
-          <Tab>Tab 1</Tab>
-          <Tab>Tab 2</Tab>
+          <Tab>Setup Profile</Tab>
+          <Tab>Configure Links</Tab>
         </TabList>
         <TabPanel>
-          <Panel>One</Panel>
+          <Panel>
+            <AddUserProfileWizard
+              setProfileData={setProfileData}
+              handleUpdate={handleUpdate} />
+          </Panel>
         </TabPanel>
         <TabPanel>
-          <Panel>Two</Panel>
+          <Panel>
+            <ConfigureProfileLinksWizard
+              profileData={profileData}
+              setProfileData={setProfileData}
+              handleUpdate={handleUpdate} />
+          </Panel>
         </TabPanel>
       </Tabs>
-      <Button isDisabled={selected === 2} onClick={() => handleUpdate(2)}>
-        Select the last tab
-      </Button>
     </Box>
   );
 }
+
+export default ProfileSetupWizard;

@@ -1,5 +1,5 @@
-section {
-
+.landingpage {
+  height: 100vh;
 }
 
 nav {
@@ -37,6 +37,8 @@ button, p {
 
 .affiliate-btn {
   background-color: white;
+  margin: 1.4rem;
+  padding: 0.5rem 1.4rem;
 }
 
 .hero {
@@ -64,12 +66,73 @@ button, p {
 }
 
 .media-icons {
-
   display: flex;
   justify-content: space-between;
+  width: 96%;
 }
 
 .social-links-tagline {
   font-size: 18px;
+  text-align: center;
 }
 
+
+/* Pricing */
+
+.pricing {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.pricingContainer {
+  text-align: center;
+  /* background-color: #f6f7f9; */
+}
+
+.priceList {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+}
+
+.pricingCard {
+  border: 1px solid #eff8ff;
+  border-radius: 10px;
+  padding: 3rem;
+  width: 300px;
+  margin: 2.4rem;
+  background-color: #eff8ff;
+}
+
+.pricingCard > ul {
+  list-style: none;
+}
+
+.pricingCard > h4 {
+  text-align: center;
+}
+
+
+/* affiliate */
+
+.affiliate {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.banner {
+  background-color: #eff8ff;
+  width: 100%;
+  padding: 4rem 1rem;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}

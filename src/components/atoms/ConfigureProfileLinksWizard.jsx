@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from "react-router-dom";
-import './index.css'
-import hero from "../../../assets/hero-image.png"
-import ProfileSetupWizard from '../../atoms/ProfileSetupWizard'
+
+import React, { Fragment } from 'react'
+import Button from '@atlaskit/button';
+import Form, { ErrorMessage, Field, FormFooter } from '@atlaskit/form';
+import TextField from '@atlaskit/textfield';
 
 
 const links = [
@@ -59,17 +59,58 @@ const CustomValueOption = ({
   </components.SingleValue>
 );
 
-export default function Profile() {
+export const ConfigureProfileLinksWizard = ({ handleUpdate, profileData }) => {
+
   return (
-    <div className='mainProfile'>
-      <div className='leftSection'>
-        <h1>Welcome, Lets get your card setup</h1>
-        <img src={hero} alt="nfcCard" width="500px" />
-        <Link to="/"><button className="affiliate-btn">Back to home</button></Link>
-      </div>
-      <div className='rightSection'>     
-        <ProfileSetupWizard />
-      </div>
+    <div
+      style={{
+        display: 'flex',
+        width: '400px',
+        margin: '0 auto',
+        flexDirection: 'column',
+      }}
+    >
+      <Form
+        onSubmit={(data) => {
+
+          const finalForm = {...data, ...profileData}
+
+          console.log('form data', finalForm);
+          return Promise.resolve(validateOnSubmit(finalForm));
+        }}
+      >
+        {({ formProps }) => (
+          <form {...formProps}>
+            {profileData?.links.map(link =>
+              <Field
+                aria-required={true}
+                name={link.value}
+                label={link.label}
+                isRequired
+                defaultValue=" "
+                >
+                {({ fieldProps, error }) => (
+                  <Fragment>
+                    <TextField autoComplete="off" {...fieldProps} />
+                    {error && (
+                      <ErrorMessage>
+                        This username is already in use, try another one.
+                      </ErrorMessage>
+                    )}
+                  </Fragment>
+                )}
+              </Field>
+              )} 
+            <FormFooter>
+              <Button type Submit appearance="primary">
+                Finish
+              </Button>
+            </FormFooter>
+          </form>
+        )}
+      </Form>
     </div>
-  );
-}
+  )
+};
+
+export default ConfigureProfileLinksWizard;
