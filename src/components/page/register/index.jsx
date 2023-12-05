@@ -1,69 +1,55 @@
-import react, {useContext} from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-// import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import react, {useContext, useState} from 'react';
+import { Alert, IconButton, InputAdornment } from '@mui/material';
+import { AuthContext } from '../../../context/AuthContext';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate, Link } from "react-router-dom";
-import { GoogleLogin } from '@react-oauth/google';
-import { Alert } from '@mui/material';
-import logo from "../../../assets/logo.svg";
-import { AuthContext } from '../../../context/AuthContext';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" to="/">
-        Link nfc
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import logo from "../../../assets/logo.svg";
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Copyright from '../../atoms/Copyright';
 
 const defaultTheme = createTheme();
 
-export default function SignUp({supabase}) {
+export default function SignUp({ supabase }) {
+  const [apiError, setApiError] = useState(null)
   const navigate = useNavigate();
-
   const { setUser }  = useContext(AuthContext)
+  const [showPassword, setShowPassword] = useState(false);
+  
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const submitData = new FormData(event.currentTarget);
 
-    let { data, error } = await supabase.auth.signUp({
-      email: submitData.get('email'),
-      password: submitData.get('password')
-    })
+    if (submitData.get('password') !== submitData.get('confirmPassword')) {
+      setApiError("Passwords do not match")
+    } else {
 
-    if (error) {
-      console.log(error)
+      let { data, error } = await supabase.auth.signUp({
+        email: submitData.get('email'),
+        password: submitData.get('password')
+      })
+  
+      if (error) {
+        setApiError(error)
+      }
+      else {
+        setUser(data?.user)
+        localStorage.setItem("user", data?.user?.id)
+        localStorage.setItem("isVerified", data?.user?.identities[0]?.identity_data?.email_verified)
+        navigate(`../profile/${data?.user?.id}`, { replace: true});
+      }
     }
-
-    if (data) {
-      setUser(data?.user)
-      localStorage.setItem("user", data?.user?.id)
-      navigate(`../profile/${data?.user?.id}`, { replace: true});
-    }
-  };
-
-  const responseMessage = (response) => {
-    console.log(response);
-  };  
-
-  const errorMessage = (error) => {
-      console.log(error);
   };
 
   return (
@@ -78,39 +64,18 @@ export default function SignUp({supabase}) {
             alignItems: 'center',
           }}
         >
-          {/* <Avatar sx={{ m: 1, }}> */}
           <img width="80" className="logo" src={logo} alt="logo" style={{
               margin: "2rem"
             }}
           />
-          {/* </Avatar> */}
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Alert sx={{ mb: 3 }} severity="error">{ "new error" }</Alert>
+            {apiError && (
+              <Alert severity="error">{ `${apiError}` }</Alert>
+            )}
             <Grid container spacing={2}>
-              {/* <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -127,17 +92,48 @@ export default function SignUp({supabase}) {
                   fullWidth
                   name="password"
                   label="Password"
-                  type="password"
                   id="password"
                   autoComplete="new-password"
+                  type={showPassword ? "text" : "password"} // <-- This is where the magic happens
+                  InputProps={{ // <-- This is where the toggle button is added.
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  id="password"
+                  autoComplete="new-password"
+                  type={showPassword ? "text" : "password"} // <-- This is where the magic happens
+                  InputProps={{ // <-- This is where the toggle button is added.
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
                 />
-              </Grid> */}
+              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -156,16 +152,6 @@ export default function SignUp({supabase}) {
             </Grid>
           </Box>
         </Box>
-        {/* <Box
-            sx={{
-              marginTop: 8,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          > <p>or</p>
-            <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
-          </Box> */}
         <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>

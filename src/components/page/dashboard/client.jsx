@@ -9,15 +9,19 @@ import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
+// import Link from '@mui/material/Link';
+
+import { Link } from "react-router-dom"
+
 import MenuIcon from '@mui/icons-material/Menu';
 import Orders from './orders';
+import logo from '../../../assets/logo.svg'
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="/">
+      <Link color="inherit" to="/">
         Link Nfc
       </Link>{' '}
       {new Date().getFullYear()}
@@ -56,7 +60,6 @@ export default function Client({ supabase, currentUserCards }) {
 
     const { error } = await supabase.auth.signOut()
     localStorage.clear();
-    console.log('error: ', error);
 
   }
 
@@ -74,6 +77,7 @@ export default function Client({ supabase, currentUserCards }) {
           alignItems: 'center',
           justifyContent: 'space-between',
           flexFlow: 'row',
+          backgroundColor: '#fff'
         }} 
         position="absolute">
           <Toolbar
@@ -81,15 +85,18 @@ export default function Client({ supabase, currentUserCards }) {
               pr: '24px', // keep right padding when drawer closed
             }}
           >
-            <IconButton
+            {/* <IconButton
               edge="start"
               color="inherit"
               aria-label="open drawer"
               onClick={toggleDrawer}
             >
               <MenuIcon />
-            </IconButton>
-            <Typography
+            </IconButton> */}
+            <Link to="/"> 
+              <img width="90" className="logo" src={logo} alt="logo" />
+            </Link> 
+            {/* <Typography
               component="h1"
               variant="h6"
               color="inherit"
@@ -97,9 +104,9 @@ export default function Client({ supabase, currentUserCards }) {
               sx={{ flexGrow: 1 }}
             >
               Dashboard
-            </Typography>
+            </Typography> */}
           </Toolbar>
-          <Link href="/login">
+          <Link to="/login">
             <button onClick={logout} className="affiliate-btn">logout</button>
           </Link>
         </AppBar>

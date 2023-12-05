@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createClient } from '@supabase/supabase-js'
-import { Auth } from '@supabase/auth-ui-react'
-import { ThemeSupa } from '@supabase/auth-ui-shared'
 
 import './App.css'
 import Home from './components/page/home'
@@ -17,36 +15,15 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 function App() { 
-
-  const [session, setSession] = useState(null)
-  const [user, setUser] = useState({})
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
-
-    return () => subscription.unsubscribe()
-  }, [])
-
-  // if (!session) {
-  //   return (<p>403</p>)
-  // }
-  // else {
+  const [user, setUser] = useState({});
     return (
       <main>
         <AuthContext.Provider value={{ user, setUser }}>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home supabase={supabase} />}/>
-              <Route path="/profile/:id" element={<Profile session={session} supabase={supabase} />} />
-              <Route path="/profile/:id/dashboard" element={<Dashboard session={session} supabase={supabase} />} />
+              <Route path="/profile/:id" element={<Profile supabase={supabase} />} />
+              <Route path="/profile/:id/dashboard" element={<Dashboard supabase={supabase} />} />
               <Route path="/login" element={<SignIn supabase={supabase} />} />
               <Route path="/register" element={<SignUp supabase={supabase} />} />
             </Routes>

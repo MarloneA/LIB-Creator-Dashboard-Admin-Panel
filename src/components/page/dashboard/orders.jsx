@@ -10,7 +10,17 @@ import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import LinkModal from './linkcardmodal';
 
-
+import fb from "../../../assets/facebook.svg"
+import github from "../../../assets/github.svg"
+import linkedin from "../../../assets/linkedin.svg"
+import spotify from "../../../assets/spotify.svg"
+import youtube from "../../../assets/youtube.svg"
+import instagram from "../../../assets/instagram.svg"
+import whatsapp from "../../../assets/whatsapp.svg"
+import twitter from "../../../assets/twitter.svg"
+import snap from "../../../assets/snap.svg"
+import tiktok from "../../../assets/tiktok.svg"
+import logo from "../../../assets/logo.svg"
 
 // Generate Order Data
 function createData(full_names, dob, bio, links, pricing) {
@@ -18,30 +28,22 @@ function createData(full_names, dob, bio, links, pricing) {
 }
 
 export default function Orders({ currentUserCards }) {
-
-  
   const rows = currentUserCards.map(card => {
-    
     const { full_names, dob, bio, links, pricing, public_url } = card;
-    
-    let concatLinks = links.map(link => link.url)
-    
-    return createData(
-        full_names,
-        dob,
-        bio,
-        links,
-        pricing,
-        public_url
+      return createData(
+          full_names,
+          dob,
+          bio,
+          links,
+          pricing,
+          public_url
       )
-      
     })
-    console.log('rows: ', rows);
   
   return (
     <React.Fragment>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
-        Cards
+        Card Details
       </Typography>
       <Table size="small">
         <TableHead>
@@ -49,9 +51,8 @@ export default function Orders({ currentUserCards }) {
             <TableCell>Name</TableCell>
             <TableCell>DOB</TableCell>
             <TableCell>Bio</TableCell>
-            <TableCell>Links</TableCell>
             <TableCell>pricing</TableCell>
-            <TableCell align="center">public profile</TableCell>
+            <TableCell>public profile</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -60,13 +61,52 @@ export default function Orders({ currentUserCards }) {
               <TableCell>{row.full_names}</TableCell>
               <TableCell>{row.dob}</TableCell>
               <TableCell>{row.bio}</TableCell>
-              <TableCell>{row.links}</TableCell>
               <TableCell>{row.pricing}</TableCell>
-              {row.public_url? <TableCell>{row.public_url}</TableCell> : <TableCell align="right"><LinkModal/></TableCell> }
+              {row.public_url? <TableCell>{row.public_url}</TableCell> : <TableCell><LinkModal/></TableCell> }
             </TableRow>
           ))}
         </TableBody>
       </Table>
+
+      <br/>
+
+      <Typography component="h2" variant="h6" color="primary" gutterBottom>
+        My Links
+      </Typography>
+      {currentUserCards.map(card => {
+
+        let parsedLinks = card.links.map(link => JSON.parse(link))
+        console.log('parsedLinks: ', parsedLinks);
+
+        return parsedLinks.map(link => (
+          <div style={{
+            display: "flex",
+          }}>
+            {link.value === "website" ? <img width="65px" src={logo} alt={link.value} /> : ""}
+            {link.value === "whatsapp" ? <img width="65px" src={whatsapp} alt={link.value} /> : ""}
+            {link.value === "instagram" ? <img width="65px" src={instagram} alt={link.value} /> : ""}
+            {link.value === "x" ? <img width="65px" src={twitter} alt={link.value} /> : ""}
+            {link.value === "linkedin" ? <img width="65px" src={linkedin} alt={link.value} /> : ""}
+            {link.value === "telegram" ? <img width="65px" src={logo} alt={link.value} /> : ""}
+            {link.value === "calendly" ? <img width="65px" src={logo} alt={link.value} /> : ""}
+            {link.value === "snapchat" ? <img width="65px" src={snap} alt={link.value} /> : ""}
+            {link.value === "tiktok" ? <img width="65px" src={tiktok} alt={link.value} /> : ""}
+            {link.value === "youtube" ? <img width="65px" src={youtube} alt={link.value} /> : ""}
+            {link.value === "pinterest" ? <img width="65px" src={logo} alt={link.value} /> : ""}
+            {link.value === "spotify" ? <img width="65px" src={spotify} alt={link.value} /> : ""}
+            {link.value === "apple" ? <img width="65px" src={logo} alt={link.value} /> : ""}
+            {link.value === "resume" ? <img width="65px" src={logo} alt={link.value} /> : ""}
+            {link.value === "bankdetails" ? <img width="65px" src={logo} alt={link.value} /> : ""}
+            {link.value === "discord" ? <img width="65px" src={logo} alt={link.value} /> : ""}
+            {link.value === "reviews" ? <img width="65px" src={logo} alt={link.value} /> : ""}
+            {link.value === "customlink" ? <img width="65px" src={logo} alt={link.value} /> : ""}
+            {link.value === "googlebusinessprofile" ? <img width="65px" src={logo} alt={link.value} /> : ""}
+            <p><a target='_' href={link.url}>{link.label}</a></p>
+          </div>
+        ))
+
+      })}
+
       <Link color="primary" href="/"  sx={{ mt: 3 }}>
         back home
       </Link>

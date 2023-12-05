@@ -21,11 +21,8 @@ export const ConfigureProfileLinksWizard = ({ session, supabase, handleUpdate, p
     >
       <Form
         onSubmit={async (formData) => {
-
           const urls = profileData.links.map(link => {
-            
             let newLink = { ...link, url: formData[link.value] }
-            
             return newLink
           });
 

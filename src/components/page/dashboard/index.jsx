@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Client from './client';
 
 export default function Dashboard({ supabase }) {
@@ -18,12 +18,10 @@ export default function Dashboard({ supabase }) {
         .select('*')
           .eq('userid', currentUser)
         
-        
         setcurrentUserCards(CardDetails)
       
     };
   }, [])
-
 
   const setPlan = async (plan) => {
     localStorage.setItem("plan", plan)
@@ -37,10 +35,8 @@ export default function Dashboard({ supabase }) {
       .from('CardDetails')
       .update({ pricing })
         .eq('userid', id)
-        // .eq('id', 20 )
+        .eq('id', currentUserCards[0].id)
       .select()
-      
-      console.log('data update: ', data);
 
       if (error) throw error;
 
@@ -49,8 +45,15 @@ export default function Dashboard({ supabase }) {
     }
   };
 
-  if (!currentPlan || ["auth"].includes(currentPlan)) {
+  const updateCard = async () => {
+    const { data, error } = await supabase
+      .from('CardDetails')
+      .update({ pricing })
+        .eq('userid', id)
+      .select()
+  }
 
+  if (!currentPlan || ["auth"].includes(currentPlan)) {
     return (
       <section id="price-page" className="pricing">
           <div className="pricingContainer">
@@ -104,8 +107,7 @@ export default function Dashboard({ supabase }) {
               </div>
             </div>
           </div>
-  
-        </section>
+      </section>
     );
   }
 

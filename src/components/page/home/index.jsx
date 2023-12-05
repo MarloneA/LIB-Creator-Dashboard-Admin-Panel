@@ -19,20 +19,16 @@ import { AuthContext } from "../../../context/AuthContext";
 
 export default function Home({ supabase }) {
 
-  const logout = async () => {
+  let isVerified = localStorage.getItem("isVerified")
 
+  const logout = async () => {
     const { error } = await supabase.auth.signOut()
     localStorage.clear();
-    console.log('error: ', error);
-
   }
 
   const [cardId, setCardId] = useState(0);
   const { user } = useContext(AuthContext)
   let currentUser = localStorage.getItem("user")
-
-  console.log('cardId: ', cardId);
-  console.log('user: ', user);
 
   useEffect(() => {
     return async () => {
@@ -40,22 +36,23 @@ export default function Home({ supabase }) {
       let { data: CardDetails, error } = await supabase
       .from('CardDetails')
       .select("*")
-      .eq("userid", currentUser)
+        .eq("userid", currentUser)
       
-      console.log('CardDetails: ', CardDetails);
       if (error) throw error; //check if there was an error fetching the data and move the execution to the catch block
-      if (CardDetails) setCardId(CardDetails);
+      if (CardDetails) setCardId(CardDetails.id);
     };
   }, [])
 
   return (
     <section>
       <section className="landingpage">
-        {/* {!user?.identities[0]?.identity_data?.email_verified && (
+        {isVerified === "false" && (
           <Alert sx={{ mb: 3 }} severity="success">{ "Check your email to verify your account" }</Alert>
-        )} */}
+        )}
         <nav>
-          <img width="80" className="logo" src={logo} alt="logo" />
+          <Link to="/"> 
+            <img width="80" className="logo" src={logo} alt="logo" />
+          </Link>
           <section className="pagelinks">
             <Link to="/about"> 
               <p>About</p>
@@ -106,7 +103,7 @@ export default function Home({ supabase }) {
                   <button className="sign-up-btn">Sign Up for free</button>
                 </Link>
               )}  
-              <a a href="#affiliate-page"> 
+              <a href="#affiliate-page"> 
                 <button className="affiliate-btn">Join Affiliate Program</button>
               </a>
             </section>
