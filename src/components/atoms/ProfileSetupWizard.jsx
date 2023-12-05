@@ -31,7 +31,7 @@ export const Panel = ({ children, testId }) => (
   </div>
 );
 
-function ProfileSetupWizard() {
+function ProfileSetupWizard({session, supabase}) {
   const [selected, setSelected] = useState(0);
   const [profileData, setProfileData] = useState({})
 
@@ -50,6 +50,7 @@ function ProfileSetupWizard() {
         <TabPanel>
           <Panel>
             <AddUserProfileWizard
+              supabase={supabase}
               setProfileData={setProfileData}
               handleUpdate={handleUpdate} />
           </Panel>
@@ -57,6 +58,8 @@ function ProfileSetupWizard() {
         <TabPanel>
           <Panel>
             <ConfigureProfileLinksWizard
+              session={session}
+              supabase={supabase}
               profileData={profileData}
               setProfileData={setProfileData}
               handleUpdate={handleUpdate} />

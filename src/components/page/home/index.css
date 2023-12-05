@@ -1,5 +1,5 @@
 .landingpage {
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 nav {
@@ -11,14 +11,17 @@ nav {
   border-radius: 55px;
 }
 
-nav > section {
+nav > .pagelinks {
   display: flex;
-
 }
 
 button, p {
   margin: 1.4rem;
   padding: 0.5rem 1.4rem;
+}
+
+button {
+  margin-left: 0;
 }
 
 .btnGrp {
@@ -49,12 +52,6 @@ button, p {
 .hero-content {
   display: flex;
   flex-flow: column;
-
-  align-items: flex-start;
-  /* justify-content: start; */
-
-  /* background-color: aqua; */
-  display: flex;
   justify-content: center;
 }
 
@@ -69,6 +66,7 @@ button, p {
   display: flex;
   justify-content: space-between;
   width: 96%;
+  /* background-color: pink; */
 }
 
 .social-links-tagline {
@@ -80,10 +78,11 @@ button, p {
 /* Pricing */
 
 .pricing {
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 2rem 0;
 }
 
 
@@ -115,6 +114,10 @@ button, p {
   text-align: center;
 }
 
+.priceplan {
+  color: #667085;
+}
+
 
 /* affiliate */
 
@@ -123,7 +126,7 @@ button, p {
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  height: 50vh;
+  /* height: 50vh; */
 }
 
 .banner {
