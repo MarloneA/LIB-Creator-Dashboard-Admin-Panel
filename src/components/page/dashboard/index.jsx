@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Client from './client';
 
-export default function Dashboard({ supabase }) {
+
+
+export default function Dashboard({supabase}) {
   
   const [currentUserCards, setcurrentUserCards] = useState([])
 
@@ -10,48 +12,28 @@ export default function Dashboard({ supabase }) {
   let currentUser = localStorage.getItem('user');
   let currentPlan = localStorage.getItem('plan');
 
-  useEffect(() => {
-    return async () => {
-      
-      let { data: CardDetails, error } = await supabase
-        .from('CardDetails')
-        .select('*')
-          .eq('userid', currentUser)
-        
-        setcurrentUserCards(CardDetails)
-      
-    };
-  }, [])
+    useEffect(() => {
+      getCardDetails();
+    }, []);
 
-  const setPlan = async (plan) => {
-    localStorage.setItem("plan", plan)
+    async function getCardDetails() {
+      const { data: CardDetails  } =  await supabase.from('CardDetails').select('*').eq('userid', currentUser);
+      setcurrentUserCards(CardDetails);
+    }
+
+  const setPlan = (plan) => {
     updateItem(plan, currentUser);
+    localStorage.setItem("plan", plan)
     navigate(`../../profile/${currentUser}/dashboard`)
   }
 
   const updateItem = async ({ pricing, id }) => {
-    try {
-      const { data, error } = await supabase
-      .from('CardDetails')
-      .update({ pricing })
-        .eq('userid', id)
-        .eq('id', currentUserCards[0].id)
-      .select()
-
-      if (error) throw error;
-
-    } catch (error) {
-      alert(error.error_description || error.message);
-    }
-  };
-
-  const updateCard = async () => {
     const { data, error } = await supabase
       .from('CardDetails')
       .update({ pricing })
-        .eq('userid', id)
+      .eq('userid', id)
       .select()
-  }
+  };
 
   if (!currentPlan || ["auth"].includes(currentPlan)) {
     return (

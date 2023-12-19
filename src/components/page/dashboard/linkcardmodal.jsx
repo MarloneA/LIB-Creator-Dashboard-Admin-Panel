@@ -8,10 +8,21 @@ import Form, { ErrorMessage, Field, FormFooter } from '@atlaskit/form';
 import TextField from '@atlaskit/textfield';
 import Button from '@atlaskit/button';
 
-export default function LinkModal() {
+export default function LinkModal({ supabase }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  let currentuser = localStorage.getItem("user");
+
+  async function updateProfile(cardId) {
+        
+    const { data, error } = await supabase
+      .from('CardDetails')
+      .update({ public_url: `linknfc.com/${cardId}` })
+      .eq('userid', currentuser)
+      .select()
+    
+  }
 
   return (
     <div>
@@ -32,16 +43,18 @@ export default function LinkModal() {
           <Form
             onSubmit={(data) => {
               console.log('data: ', data);
+              updateProfile(data.cardId);
+              setOpen(false);
             }}
           >
             {({ formProps }) => (
               <form {...formProps}>
                 <Field
                   aria-required={true}
-                  name="card id"
+                  name="cardId"
                   label="Unique Card Id"
                   isRequired
-                  defaultValue=" "
+                  defaultValue=""
                 >
                   {({ fieldProps, error }) => (
                     <Fragment>

@@ -51,6 +51,8 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 
+
+
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
@@ -85,26 +87,9 @@ export default function Client({ supabase, currentUserCards }) {
               pr: '24px', // keep right padding when drawer closed
             }}
           >
-            {/* <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={toggleDrawer}
-            >
-              <MenuIcon />
-            </IconButton> */}
             <Link to="/"> 
               <img width="90" className="logo" src={logo} alt="logo" />
             </Link> 
-            {/* <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-              Dashboard
-            </Typography> */}
           </Toolbar>
           <Link to="/login">
             <button onClick={logout} className="affiliate-btn">logout</button>
@@ -128,7 +113,7 @@ export default function Client({ supabase, currentUserCards }) {
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders currentUserCards={currentUserCards} />
+                  <Orders supabase={supabase} currentUserCards={currentUserCards} />
                 </Paper>
               </Grid>
             </Grid>

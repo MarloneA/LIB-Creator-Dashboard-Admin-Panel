@@ -1,20 +1,21 @@
 import React, {useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
 import './index.css'
-import hero from "../../../assets/hero-image.png"
-import fb from "../../../assets/facebook.svg"
-import github from "../../../assets/github.svg"
-import linkedin from "../../../assets/linkedin.svg"
-import spotify from "../../../assets/spotify.svg"
-import youtube from "../../../assets/youtube.svg"
-import instagram from "../../../assets/instagram.svg"
-import whatsapp from "../../../assets/whatsapp.svg"
-import twitter from "../../../assets/twitter.svg"
-import snap from "../../../assets/snap.svg"
-import tiktok from "../../../assets/tiktok.svg"
-import logo from "../../../assets/logo.svg"
 import { Alert } from "@mui/material";
 import { AuthContext } from "../../../context/AuthContext";
+import { Link } from "react-router-dom";
+
+import fb from "../../../assets/facebook.svg"
+import github from "../../../assets/github.svg"
+import hero from "../../../assets/hero-image.png"
+import instagram from "../../../assets/instagram.svg"
+import linkedin from "../../../assets/linkedin.svg"
+import logo from "../../../assets/logo.svg"
+import snap from "../../../assets/snap.svg"
+import spotify from "../../../assets/spotify.svg"
+import tiktok from "../../../assets/tiktok.svg"
+import twitter from "../../../assets/twitter.svg"
+import whatsapp from "../../../assets/whatsapp.svg"
+import youtube from "../../../assets/youtube.svg"
 
 
 export default function Home({ supabase }) {

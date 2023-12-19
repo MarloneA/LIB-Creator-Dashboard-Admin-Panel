@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import LinkModal from './linkcardmodal';
 
+import { Link as RLink } from "react-router-dom";
+
 import fb from "../../../assets/facebook.svg"
 import github from "../../../assets/github.svg"
 import linkedin from "../../../assets/linkedin.svg"
@@ -23,22 +25,35 @@ import tiktok from "../../../assets/tiktok.svg"
 import logo from "../../../assets/logo.svg"
 
 // Generate Order Data
-function createData(full_names, dob, bio, links, pricing) {
-  return { full_names, dob, bio, links, pricing };
+function createData(full_names, dob, bio, pricing, public_url) {
+  return { full_names, dob, bio, pricing, public_url  };
 }
 
-export default function Orders({ currentUserCards }) {
+export default function Orders({ supabase, currentUserCards }) {
+
+  let currentuser = localStorage.getItem("user")
+
   const rows = currentUserCards.map(card => {
-    const { full_names, dob, bio, links, pricing, public_url } = card;
-      return createData(
-          full_names,
-          dob,
-          bio,
-          links,
-          pricing,
-          public_url
+    const {
+      id,
+      created_at,
+      full_names,
+      dob,
+      bio,
+      links,
+      userid,
+      pricing,
+      public_url,
+    } = card;
+
+    return createData(
+        full_names,
+        dob,
+        bio,
+        pricing,
+        public_url
       )
-    })
+  })
   
   return (
     <React.Fragment>
@@ -56,13 +71,14 @@ export default function Orders({ currentUserCards }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.pricing}>
+          {rows.map((row, index) => (
+            <TableRow key={index}>
               <TableCell>{row.full_names}</TableCell>
               <TableCell>{row.dob}</TableCell>
               <TableCell>{row.bio}</TableCell>
               <TableCell>{row.pricing}</TableCell>
-              {row.public_url? <TableCell>{row.public_url}</TableCell> : <TableCell><LinkModal/></TableCell> }
+             
+              {row.public_url ? <TableCell><a target="_blank" href={`http://linknfc.com/${currentuser}/profile/${row.public_url.replace("linknfc.com/", "")}`}>{row.public_url}</a></TableCell> :  (<TableCell><LinkModal supabase={supabase} /></TableCell>) }
             </TableRow>
           ))}
         </TableBody>
@@ -76,7 +92,6 @@ export default function Orders({ currentUserCards }) {
       {currentUserCards.map(card => {
 
         let parsedLinks = card.links.map(link => JSON.parse(link))
-        console.log('parsedLinks: ', parsedLinks);
 
         return parsedLinks.map(link => (
           <div style={{
