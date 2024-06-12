@@ -1,52 +1,47 @@
-import React, {useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import './index.css'
-import hero from "../../../assets/hero-image.png"
-import fb from "../../../assets/facebook.svg"
-import github from "../../../assets/github.svg"
-import linkedin from "../../../assets/linkedin.svg"
-import spotify from "../../../assets/spotify.svg"
-import youtube from "../../../assets/youtube.svg"
-import instagram from "../../../assets/instagram.svg"
-import whatsapp from "../../../assets/whatsapp.svg"
-import twitter from "../../../assets/twitter.svg"
-import snap from "../../../assets/snap.svg"
-import tiktok from "../../../assets/tiktok.svg"
-import logo from "../../../assets/logo.svg"
+import "./index.css";
+import hero from "../../../assets/hero-image.png";
+import fb from "../../../assets/facebook.svg";
+import github from "../../../assets/github.svg";
+import linkedin from "../../../assets/linkedin.svg";
+import spotify from "../../../assets/spotify.svg";
+import youtube from "../../../assets/youtube.svg";
+import instagram from "../../../assets/instagram.svg";
+import whatsapp from "../../../assets/whatsapp.svg";
+import twitter from "../../../assets/twitter.svg";
+import snap from "../../../assets/snap.svg";
+import tiktok from "../../../assets/tiktok.svg";
+import logo from "../../../assets/logo.svg";
 import { Alert } from "@mui/material";
 import { AuthContext } from "../../../context/AuthContext";
 
-
 export default function Home({ supabase }) {
-
   const logout = async () => {
-
-    const { error } = await supabase.auth.signOut()
+    const { error } = await supabase.auth.signOut();
     localStorage.clear();
-    console.log('error: ', error);
-
-  }
+    console.log("error: ", error);
+  };
 
   const [cardId, setCardId] = useState(0);
-  const { user } = useContext(AuthContext)
-  let currentUser = localStorage.getItem("user")
+  const { user } = useContext(AuthContext);
+  let currentUser = localStorage.getItem("user");
 
-  console.log('cardId: ', cardId);
-  console.log('user: ', user);
+  console.log("cardId: ", cardId);
+  console.log("user: ", user);
 
   useEffect(() => {
     return async () => {
-
       let { data: CardDetails, error } = await supabase
-      .from('CardDetails')
-      .select("*")
-      .eq("userid", currentUser)
-      
-      console.log('CardDetails: ', CardDetails);
+        .from("CardDetails")
+        .select("*")
+        .eq("userid", currentUser);
+
+      console.log("CardDetails: ", CardDetails);
       if (error) throw error; //check if there was an error fetching the data and move the execution to the catch block
       if (CardDetails) setCardId(CardDetails);
     };
-  }, [])
+  }, []);
 
   return (
     <section>
@@ -55,22 +50,23 @@ export default function Home({ supabase }) {
           <Alert sx={{ mb: 3 }} severity="success">{ "Check your email to verify your account" }</Alert>
         )} */}
         <nav>
-          <img width="80" className="logo" src={logo} alt="logo" />
           <section className="pagelinks">
-            <Link to="/about"> 
+            <Link to="/about">
               <p>About</p>
             </Link>
-            <a href="#price-page"> 
+            <a href="#price-page">
               <p>Pricing</p>
             </a>
-            <Link to="/contact"> 
+            <Link to="/contact">
               <p>Contact</p>
             </Link>
           </section>
           <section className="btnGrp">
             {!currentUser && (
-              <a a href="#affiliate-page"> 
-                <button className="affiliate-btn">Join Affiliate Program</button>
+              <a a href="#affiliate-page">
+                <button className="affiliate-btn">
+                  Join Affiliate Program
+                </button>
               </a>
             )}
             {!currentUser && (
@@ -85,7 +81,9 @@ export default function Home({ supabase }) {
             )}
             {currentUser && (
               <Link to="/login">
-                <button onClick={logout} className="affiliate-btn">logout</button>
+                <button onClick={logout} className="affiliate-btn">
+                  logout
+                </button>
               </Link>
             )}
           </section>
@@ -93,7 +91,10 @@ export default function Home({ supabase }) {
         <div className="hero">
           <div className="hero-content">
             <h1>Connecting business, one tap at a time</h1>
-            <h4>Experience the future of networking with Link NfC - where sharing your major sites with your network doesn't have to be a hustle</h4>
+            <h4>
+              Experience the future of networking with Link NfC - where sharing
+              your major sites with your network doesn't have to be a hustle
+            </h4>
             <section>
               {/* <Link to="/profile"><button className="sign-up-btn">Get Card</button></Link> */}
               {currentUser && (
@@ -105,9 +106,11 @@ export default function Home({ supabase }) {
                 <Link to="/register">
                   <button className="sign-up-btn">Sign Up for free</button>
                 </Link>
-              )}  
-              <a a href="#affiliate-page"> 
-                <button className="affiliate-btn">Join Affiliate Program</button>
+              )}
+              <a a href="#affiliate-page">
+                <button className="affiliate-btn">
+                  Join Affiliate Program
+                </button>
               </a>
             </section>
           </div>
@@ -115,7 +118,9 @@ export default function Home({ supabase }) {
             <img src={hero} alt="nfcCard" />
           </div>
         </div>
-        <p className="social-links-tagline">Share your links from your favorite platforms at the tap of a card</p>
+        <p className="social-links-tagline">
+          Share your links from your favorite platforms at the tap of a card
+        </p>
         <div className="media-icons">
           <img src={instagram} alt="facebook logo" width="65px" />
           <img src={fb} alt="facebook logo" width="65px" />
@@ -146,7 +151,12 @@ export default function Home({ supabase }) {
                 <h5>is scanned</h5>
               </div>
               <Link to="/profile">
-                <button onClick={() => updateItem("free", cardId)} className="sign-up-btn">Get Card</button>
+                <button
+                  onClick={() => updateItem("free", cardId)}
+                  className="sign-up-btn"
+                >
+                  Get Card
+                </button>
               </Link>
             </div>
 
@@ -163,8 +173,13 @@ export default function Home({ supabase }) {
                 <h5>No Ads</h5>
               </div>
               <Link to="/profile">
-                <button onClick={() => updateItem("basic", cardId)} className="sign-up-btn">Get Card</button>
-                </Link>
+                <button
+                  onClick={() => updateItem("basic", cardId)}
+                  className="sign-up-btn"
+                >
+                  Get Card
+                </button>
+              </Link>
             </div>
 
             <div className="pricingCard">
@@ -180,19 +195,28 @@ export default function Home({ supabase }) {
                 <h5>No Ads</h5>
               </div>
               <Link to="/profile">
-                <button onClick={() => updateItem("premium", cardId)} className="sign-up-btn">Get Card</button>
-                </Link>
+                <button
+                  onClick={() => updateItem("premium", cardId)}
+                  className="sign-up-btn"
+                >
+                  Get Card
+                </button>
+              </Link>
             </div>
           </div>
         </div>
-
       </section>
 
       <section id="affiliate-page" className="affiliate">
         <h1>Affiliate Program</h1>
         <div className="banner">
           <h4>Get 20% commission for every referral</h4>
-          <button className=" affiliate-btn" onClick={() => alert("affiliate program")}>Learn more</button>
+          <button
+            className=" affiliate-btn"
+            onClick={() => alert("affiliate program")}
+          >
+            Learn more
+          </button>
         </div>
       </section>
     </section>
